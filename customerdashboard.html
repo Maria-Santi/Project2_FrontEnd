@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Git Your Java Customer</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<style>
+.container {
+    
+  display: grid; 
+  grid-template-columns: 0.7fr 2.3fr 2.3fr 0.6fr; 
+  grid-template-rows: 0.9fr 1.1fr 0.1fr 1.9fr 1fr 1fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    ". mood mood ."
+    ". mood mood ."
+    ". . . ."
+    ". ordersTable ordersTable ."
+    ". ordersTable ordersTable ."
+    ". . . ."; 
+}
+.mood {
+  display: grid; 
+  grid-template-columns: 0.9fr 0.8fr 1.4fr 0.9fr 1fr; 
+  grid-template-rows: 0.3fr 1.8fr 0.9fr 1fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    ". . . . ."
+    ". . face . ."
+    ". question question question ."
+    ". . . . ."; 
+  grid-area: mood; 
+}
+.face { 
+    margin: 0 auto;
+    grid-area: face;
+    
+}
+
+img {
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+}
+
+.question { 
+    grid-area: question;
+    text-align: center;
+    margin: 0 auto;
+ }
+.ordersTable { 
+    grid-area: ordersTable;
+    background-color: dimgray; 
+}
+
+body, html
+{
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    background-color: lightsteelblue;
+}
+
+
+</style>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <span class="navbar-brand mb-0 h1">Git Your Java</span>
+        <h4 style="text-align: center;">Welcome, User</h4>
+        <button style="float: right; margin: 15px;" type="button" class="btn btn-dark" id="logoutBtn" onclick="logout()">Logout</button>
+      </nav>
+
+      <div class="container">
+        <div class="mood">
+          <div class="face">
+            <img id="moodFace" src="">
+          </div>
+          <div class="question">
+              <h5>What is your mood today?</h5>
+            <div class="btn-group">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMood" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mood:</button>
+                <div class="dropdown-menu">
+                  <button id="Happy" class="dropdown-item" type="button" onclick="getMood('Happy')">Happy</button>
+                  <button id="Sad" class="dropdown-item" type="button" onclick="getMood('Sad')">Sad</button>
+                  <button id="Angry" class="dropdown-item" type="button" onclick="getMood('Angry')">Angry</button>
+                  <button id="Anxious" class="dropdown-item" type="button" onclick="getMood('Anxious')">Anxious</button>
+                  <button id="Sleepy" class="dropdown-item" type="button" onclick="getMood('Sleepy')">Sleepy</button>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="ordersTable">
+
+        </div>
+      </div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+<script>
+   const moodFace = document.getElementById("moodFace");
+
+   function getMood(mood) {
+
+       moodFace.src = `${mood}.gif`
+   }
+
+   function logout(){
+        localStorage.clear();
+        window.location.href = 'homepage.html'
+    }
+
+   getMood('Normal');
+
+</script>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Git Your Java Home Page</title>
+    <link rel="stylesheet" href="./coffeemachine.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<style>
+.container {
+  margin: 0;
+  width: 100%;  
+  display: grid; 
+  grid-template-columns: 0.1fr 1.1fr 1.8fr 1.8fr 1fr 0.2fr; 
+  grid-template-rows: 0.7fr 0.1fr 2.2fr 1.8fr 0.2fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    ". container-coffee container-coffee container-coffee container-coffee ."
+    ". . . . . ."
+    ". . menu menu . ."
+    ". . menu menu . ."
+    ". . . . . ."; 
+}
+.container-coffee { grid-area: container-coffee; }
+.menu {
+  display: grid; 
+  grid-template-columns: 0.3fr 2.1fr 0.3fr 2.2fr 0.3fr 1.5fr 0.3fr; 
+  grid-template-rows: 0.1fr 0.6fr 0.3fr 0.5fr 4.2fr 0.2fr 0.4fr 3.8fr 0.1fr 0.5fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    ". . . . . . ."
+    ". . title title . . ."
+    ". . . . . . ."
+    ". cold . . hot hot ."
+    ". coldMenu coffeeGif coffeeGif hotMenu hotMenu ."
+    ". . . . . . ."
+    ". coffeePic food food coffeePic2 coffeePic2 ."
+    ". coffeePic foodMenu foodMenu coffeePic2 coffeePic2 ."
+    ". . . . . . ."
+    ". . . . . . ."; 
+  grid-area: menu; 
+  text-align: center;
+  color: black;
+  background-color: dimgray;
+  border-radius: 35px;
+}
+.cold { 
+    grid-area: cold;
+    border: 5px double black;
+}
+.coldMenu { 
+    grid-area: coldMenu;
+    background-color: darkslategray;
+}
+.title { 
+    grid-area: title;
+    border: 5px solid black;  
+}
+.hot { 
+    grid-area: hot; 
+    border: 5px double black;
+}
+.hotMenu { 
+    grid-area: hotMenu;
+    background-color: darkslategray; }
+.coffeeGif { 
+    grid-area: coffeeGif;
+}
+.coffeePic { 
+    grid-area: coffeePic; 
+}
+.food { 
+    grid-area: food;
+    border: 5px double black; }
+.foodMenu { 
+    grid-area: foodMenu; 
+    background-color: darkslategray;
+}
+.coffeePic2 { 
+    grid-area: coffeePic2;
+    background-size: cover;
+}
+
+.coffee-machine {
+    width: 300px;
+    height: 280px;
+    margin: 0 auto;
+    position: relative;
+}
+
+
+body {
+    background-color:lightsteelblue;
+}
+
+
+
+
+</style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">Git Your Java!</a>
+          </div>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Create Account</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          </ul>
+        </div>
+      </nav>
+
+        <div class="container">
+            <div class="container-coffee">
+
+            </div>
+            <div class="menu">
+              <div class="cold">
+                  <h4><b>Cold Drinks</b></h4>
+              </div>
+              <div id= "coldMenu" class="coldMenu">
+
+              </div>
+              <div class="title">
+                  <h3><b>Git Your Java Menu</b></h3>
+              </div>
+              <div class="hot">
+                  <h4><b>Hot Drinks</b></h4>
+              </div>
+              <div id = "hotMenu" class="hotMenu">
+
+              </div>
+              <div class="coffeeGif">
+                <div class="coffee-machine">
+                    <div class="coffee-header">
+                    <div class="coffee-header__buttons coffee-header__button-one"></div>
+                    <div class="coffee-header__buttons coffee-header__button-two"></div>
+                    <div class="coffee-header__display"></div>
+                    <div class="coffee-header__details"></div>
+                    </div>
+                    <div class="coffee-medium">
+                    <div class="coffe-medium__exit"></div>
+                    <div class="coffee-medium__arm"></div>
+                    <div class="coffee-medium__liquid"></div>
+                    <div class="coffee-medium__smoke coffee-medium__smoke-one"></div>
+                    <div class="coffee-medium__smoke coffee-medium__smoke-two"></div>
+                    <div class="coffee-medium__smoke coffee-medium__smoke-three"></div>
+                    <div class="coffee-medium__smoke coffee-medium__smoke-four"></div>
+                    <div class="coffee-medium__cup"><b>Java</b></div>
+                    </div>
+                    <div class="coffee-footer"></div>
+                </div>
+              </div>
+              <div class="coffeePic">
+                <img style="height: 300px; width: 270px;" src="transparentcoffee.webp">
+              </div>
+              <div class="food">
+                  <h4><b>Food</b></h4>
+              </div>
+              <div id="foodMenu" class="foodMenu">
+
+              </div>
+              <div class="coffeePic2">
+                <img style="height: 300px; width: 320px;" src="clearcoffee.png">
+              </div>
+            </div>
+          </div>
+        
+    
+</body>
+<script>
+    //login/create account - add an id and add an event listener 
+
+</script>
+</html>
