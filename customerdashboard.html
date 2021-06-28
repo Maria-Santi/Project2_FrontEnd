@@ -6,52 +6,63 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <style>
 .container {
-    
   display: grid; 
-  grid-template-columns: 0.7fr 2.3fr 2.3fr 0.6fr; 
-  grid-template-rows: 0.9fr 1.1fr 0.1fr 1.9fr 1fr 1fr; 
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; 
+  grid-template-rows: 0.2fr 1.8fr 0.1fr 1.9fr 0.2fr 1.8fr 1fr 1fr; 
   gap: 0px 0px; 
   grid-template-areas: 
-    ". mood mood ."
-    ". mood mood ."
-    ". . . ."
-    ". ordersTable ordersTable ."
-    ". ordersTable ordersTable ."
-    ". . . ."; 
+    ". . . . . . ."
+    ". mood mood mood mood mood ."
+    ". . . . . . ."
+    ". . ordersTable ordersTable ordersTable . ."
+    ". . . . . . ."
+    ". menu menu menu menu menu ."
+    ". menu menu menu menu menu ."
+    ". . . . . . ."; 
 }
 .mood {
   display: grid; 
-  grid-template-columns: 0.9fr 0.8fr 1.4fr 0.9fr 1fr; 
-  grid-template-rows: 0.3fr 1.8fr 0.9fr 1fr; 
+  grid-template-columns: 1fr 0.7fr 1.3fr 1fr 1fr; 
+  grid-template-rows: 0.3fr 2.4fr 0.1fr 1.3fr; 
   gap: 0px 0px; 
   grid-template-areas: 
     ". . . . ."
     ". . face . ."
-    ". question question question ."
-    ". . . . ."; 
+    ". . . . ."
+    ". question question question ."; 
   grid-area: mood; 
 }
-.face { 
-    margin: 0 auto;
-    grid-area: face;
-    
-}
 
-img {
-    margin: 0 auto;
-    width: 200px;
-    height: 200px;
-}
+
+.face { grid-area: face; }
 
 .question { 
     grid-area: question;
     text-align: center;
     margin: 0 auto;
  }
-.ordersTable { 
-    grid-area: ordersTable;
-    background-color: dimgray; 
+
+.ordersTable { grid-area: ordersTable; }
+
+.menu {
+  display: grid; 
+  grid-template-columns: 0.5fr 0.7fr 2.4fr 0.4fr; 
+  grid-template-rows: 0.2fr 0.6fr 2.2fr 1.7fr 0.3fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    ". . . ."
+    ". sort . ."
+    ". menuTable menuTable ."
+    ". menuTable menuTable ."
+    ". . . ."; 
+  grid-area: menu; 
 }
+
+.sort { grid-area: sort; }
+
+.menuTable { grid-area: menuTable; }
+
+
 
 body, html
 {
@@ -66,13 +77,22 @@ body {
     background-color: lightsteelblue;
 }
 
+img {
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+}
 
 </style>
 </head>
 <body>
     <nav class="navbar navbar-light bg-light">
         <span class="navbar-brand mb-0 h1">Git Your Java</span>
+
+        <!-- localStorage to get the user name? -->
         <h4 style="text-align: center;">Welcome, User</h4>
+
+        <!-- add localStorage to get the Barista's name? -->
         <button style="float: right; margin: 15px;" type="button" class="btn btn-dark" id="logoutBtn" onclick="logout()">Logout</button>
       </nav>
 
@@ -98,6 +118,12 @@ body {
         <div class="ordersTable">
 
         </div>
+        <div class = "menu">
+
+          <!-- sort is a dropdown button, getProductsByCategory -->
+          <div id = "sortBtn" class = "sort"></div>
+          <div clas = "menuTable"></div>
+        </div>
       </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -107,9 +133,15 @@ body {
 <script>
    const moodFace = document.getElementById("moodFace");
 
-   function getMood(mood) {
+   // function to populate menu inside the customer page (div menuTable)
+   // 
 
-       moodFace.src = `${mood}.gif`
+
+   function getMood(mood) {
+      // async function to populate div ordersTable based on the mood
+      // so getProductsByMood function
+
+      moodFace.src = `${mood}.gif`
    }
 
    function logout(){
