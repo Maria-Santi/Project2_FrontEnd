@@ -11,75 +11,121 @@
   margin: 0;
   width: 100%;  
   display: grid; 
-  grid-template-columns: 0.1fr 1.1fr 1.8fr 1.8fr 1fr 0.2fr; 
-  grid-template-rows: 0.7fr 0.1fr 2.2fr 1.8fr 0.2fr; 
+  grid-template-columns: 1.3fr 0.7fr 1fr 1fr 1.1fr 0.9fr 0.8fr 1.2fr; 
+  grid-template-rows: 0.4fr 1.6fr 1fr 1fr 1fr 1.7fr 1.9fr 0.2fr; 
   gap: 0px 0px; 
   grid-template-areas: 
-    ". container-coffee container-coffee container-coffee container-coffee ."
-    ". . . . . ."
-    ". . menu menu . ."
-    ". . menu menu . ."
-    ". . . . . ."; 
+    ". . . . . . . ."
+    ". menu menu menu menu menu menu ."
+    ". menu menu menu menu menu menu ."
+    ". menu menu menu menu menu menu ."
+    ". menu menu menu menu menu menu ."
+    ". menu menu menu menu menu menu ."
+    ". menu menu menu menu menu menu ."
+    ". . . . . . . ."; 
 }
-.container-coffee { grid-area: container-coffee; }
 .menu {
+  color: black;
+  text-align: center;
+  border: 7px dotted black;
+  background-color:rgb(65, 63, 63);
   display: grid; 
-  grid-template-columns: 0.3fr 2.1fr 0.3fr 2.2fr 0.3fr 1.5fr 0.3fr; 
-  grid-template-rows: 0.1fr 0.6fr 0.3fr 0.5fr 4.2fr 0.2fr 0.4fr 3.8fr 0.1fr 0.5fr; 
+  grid-template-columns: 0.5fr 2.3fr 0.1fr 1.1fr 1.3fr 0.1fr 2.3fr 0.4fr; 
+  grid-template-rows: 0.5fr 1.7fr 0.9fr 0.1fr 1.8fr 0.7fr 0.1fr 2.9fr 0.3fr; 
   gap: 0px 0px; 
   grid-template-areas: 
-    ". . . . . . ."
-    ". . title title . . ."
-    ". . . . . . ."
-    ". cold . . hot hot ."
-    ". coldMenu coffeeGif coffeeGif hotMenu hotMenu ."
-    ". . . . . . ."
-    ". coffeePic food food coffeePic2 coffeePic2 ."
-    ". coffeePic foodMenu foodMenu coffeePic2 coffeePic2 ."
-    ". . . . . . ."
-    ". . . . . . ."; 
+    ". . menuTitle menuTitle menuTitle menuTitle . ."
+    ". coldMenu . coffeeGif coffeeGif . hotMenu ."
+    ". coldMenu . coffeeGif coffeeGif . hotMenu ."
+    ". . . . . . . ."
+    ". coffee1 . foodMenu foodMenu . coffee2 ."
+    ". coffee1 . foodMenu foodMenu . coffee2 ."
+    ". . . . . . . ."
+    ". beansMenu . coffee3 coffee3 . merchandiseMenu ."
+    ". . . . . . . ."; 
   grid-area: menu; 
+}
+.menuTitle { 
+  grid-area: menuTitle; 
+  padding-bottom: 5px;
+  border: 5px double black;
+  background-color: lightslategray;
+  }
+.coldMenu {
+  display: grid; 
+  grid-template-columns: 0.1fr 3fr 0.1fr; 
+  grid-template-rows: 2fr 0.1fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    ". . ."
+    ". . ."; 
+  grid-area: coldMenu; 
+  border: 5px double black;
+  background-color: lightslategray;
+}
+
+.hotMenu {
+  display: grid; 
+  grid-template-columns: 0.1fr 3.2fr 0.1fr; 
+  grid-template-rows: 2fr 0.1fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    ". . ."
+    ". . ."; 
+  grid-area: hotMenu; 
+  border: 5px double black;
+  background-color: lightslategray; 
   text-align: center;
-  color: black;
-  background-color: dimgray;
-  border-radius: 35px;
+  
 }
-.cold { 
-    grid-area: cold;
-    border: 5px double black;
+
+.foodMenu {
+  display: grid; 
+  grid-template-columns: 0.1fr 3fr 0.1fr; 
+  grid-template-rows: 2.1fr 0.1fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    ". . ."
+    ". . ."; 
+  grid-area: foodMenu; 
+  border: 5px double black;
+  background-color: lightslategray;
 }
-.coldMenu { 
-    grid-area: coldMenu;
-    background-color: darkslategray;
+
+.beansMenu {
+  display: grid; 
+  grid-template-columns: 0.1fr 3fr 0.1fr; 
+  grid-template-rows: 0.4fr 1.6fr 1fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    ". . ."
+    ". . ."
+    ". . ."; 
+  grid-area: beansMenu;
+  border: 5px double black;
+  background-color: lightslategray; 
 }
-.title { 
-    grid-area: title;
-    border: 5px solid black;  
+
+.merchandiseMenu {
+  display: grid; 
+  grid-template-columns: 0.1fr 3fr 0.1fr; 
+  grid-template-rows: 0.4fr 1.6fr 1fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    ". . ."
+    ". . ."
+    ". . ."; 
+  grid-area: merchandiseMenu; 
+  border: 5px double black;
+  background-color: lightslategray;
 }
-.hot { 
-    grid-area: hot; 
-    border: 5px double black;
-}
-.hotMenu { 
-    grid-area: hotMenu;
-    background-color: darkslategray; }
+
+.coffee1 { grid-area: coffee1; }
+.coffee2 { grid-area: coffee2; }
+.coffee3 { grid-area: coffee3; }
 .coffeeGif { 
-    grid-area: coffeeGif;
-}
-.coffeePic { 
-    grid-area: coffeePic; 
-}
-.food { 
-    grid-area: food;
-    border: 5px double black; }
-.foodMenu { 
-    grid-area: foodMenu; 
-    background-color: darkslategray;
-}
-.coffeePic2 { 
-    grid-area: coffeePic2;
-    background-size: cover;
-}
+  grid-area: coffeeGif;
+  padding-top: 50px; }
 
 .coffee-machine {
     width: 300px;
@@ -93,6 +139,20 @@ body {
     background-color:lightsteelblue;
 }
 
+table {
+  margin-left: 70px;
+}
+
+th {
+  text-align: center;
+}
+
+img {
+  margin: 0 auto;
+  height: 300px;
+  width: 320px;
+}
+
 
 </style>
 </head>
@@ -104,6 +164,7 @@ body {
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
           <div class="navbar-header">
+            <img style="width: 50px; height: 50px;" src="icon.png">
             <a class="navbar-brand" href="#">Git Your Java!</a>
           </div>
           <ul class="nav navbar-nav navbar-right">
@@ -114,25 +175,108 @@ body {
       </nav>
 
         <div class="container">
-            <div class="container-coffee">
 
-            </div>
             <div class="menu">
-              <div class="cold">
-                  <h4><b>Cold Drinks</b></h4>
+              <div class="menuTitle">
+                <h3><b>Git Your Java Menu</b></h3>
               </div>
-              <div id= "coldMenu" class="coldMenu">
+
+              <div id= "coldDrinksMenu" class="coldMenu">
+                
+                  <table class = "table">
+                    <thead class="thead-dark">
+                      <th>Cold Drinks</th>
+                      <tr>
+                        <th scope="col">Name</th> 
+                        <th scope="col">Price</th>
+                      </tr>
+                    </thead>
+                    <tbody id = "coldMenu">
+  
+                    </tbody>
+                  </table>
 
               </div>
-              <div class="title">
-                  <h3><b>Git Your Java Menu</b></h3>
-              </div>
-              <div class="hot">
-                  <h4><b>Hot Drinks</b></h4>
-              </div>
-              <div id = "hotMenu" class="hotMenu">
 
+              <div id = "hotDrinksMenu" class="hotMenu">
+
+                  <table class = "table">
+                    <thead class="thead-dark">
+                      <th>Hot Drinks</th>
+                      <tr>
+                        <th scope="col">Name</th> 
+                        <th scope="col">Price</th>
+                      </tr>
+                    </thead>
+                    <tbody id = "hotMenu">
+                      
+                    </tbody>
+                  </table>
+             
               </div>
+
+              <div id="foodItemsMenu" class="foodMenu">
+              
+                  <table class = "table">
+                    <thead class="thead-dark">
+                      <th>Food</th>
+                      <tr>
+                        <th scope="col">Name</th> 
+                        <th scope="col">Price</th>
+                      </tr>
+                    </thead>
+                    <tbody id = "foodMenu">
+                      
+                    </tbody>
+                  </table>
+                
+              </div>
+
+              <div class = "beansMenu">
+                  <table class = "table">
+                    <thead class="thead-dark">
+                      <th>Coffee Beans</th>
+                      <tr>
+                        <th scope="col">Name</th> 
+                        <th scope="col">Price</th>
+                      </tr>
+                    </thead>
+                    <tbody id = "beansMenu">
+                      
+                    </tbody>
+                  </table>
+                
+              </div>
+
+              <div class="merchandiseMenu">
+                
+                  <table class = "table">
+                    <thead class="thead-dark">
+                      <th>Merchandise</th>
+                      <tr>
+                        <th scope="col">Name</th> 
+                        <th scope="col">Price</th>
+                      </tr>
+                    </thead>
+                    <tbody id = "merchMenu">
+                      
+                    </tbody>
+                  </table>
+                
+              </div>
+
+              <div class="coffee1">
+                <img src="coffeecartoon.gif">
+              </div>
+
+              <div class="coffee2">
+                <img src="pastry.gif">
+              </div>
+
+              <div class="coffee3">
+                <img src="beanbag.gif">
+              </div>
+
               <div class="coffeeGif">
                 <div class="coffee-machine">
                     <div class="coffee-header">
@@ -154,18 +298,7 @@ body {
                     <div class="coffee-footer"></div>
                 </div>
               </div>
-              <div class="coffeePic">
-                <img style="height: 300px; width: 270px;" src="transparentcoffee.webp">
-              </div>
-              <div class="food">
-                  <h4><b>Food</b></h4>
-              </div>
-              <div id="foodMenu" class="foodMenu">
 
-              </div>
-              <div class="coffeePic2">
-                <img style="height: 300px; width: 320px;" src="clearcoffee.png">
-              </div>
             </div>
           </div>
         
@@ -175,7 +308,67 @@ body {
     //login/create account - add an id and add an event listener 
     // login functionality
 
+    const coldMenu = document.getElementById("coldMenu");
+    const hotMenu = document.getElementById("hotMenu");
+    const foodMenu = document.getElementById("foodMenu");
+    const beansMenu = document.getElementById("beansMenu");
+    const merchMenu = document.getElementById("merchMenu"); 
+
     // async function for getAllProducts, called when the page loads
+    async function getAllProducts(category){
+      const repsonse = await fetch(`http://localhost:7000/products?category=${category}`);
+      const products = await repsonse.json();
+
+      let innerRows = "";
+      for(let product of products) {
+        innerRows += `
+          <tr>
+          <td style="text-align: center; vertical-align: middle;">${product.name}</td>
+          <td style="text-align: center; vertical-align: middle;">$${product.price}</td>
+          </tr>`
+
+        switch(category) {
+          case "Hot":
+            hotMenu.innerHTML = innerRows;
+            break;
+          case "Cold":
+            coldMenu.innerHTML = innerRows;
+            break;
+          case "Food":
+            foodMenu.innerHTML = innerRows;
+            break;
+          case "Beans":
+            beansMenu.innerHTML = innerRows;
+            break;
+          case "Merch":
+            merchMenu.innerHTML = innerRows;
+            break;
+        } 
+      }
+
+    }
+
+    function addLoadEvent(func){
+        var oldonload = window.onload;
+        if (typeof window.onload != 'function'){
+            window.onload = func;
+        }
+        else { 
+        window.onload = function() { 
+            if (oldonload) { 
+                oldonload(); 
+            } 
+            func(); 
+            } 
+        }
+    }
+
+
+    addLoadEvent(getAllProducts("Cold"));
+    addLoadEvent(getAllProducts("Hot"));
+    addLoadEvent(getAllProducts("Food"));
+    //addLoadEvent(getAllProducts("Beans"));
+    //addLoadEvent(getAllProducts("Merch"));
 
 </script>
 </html>
