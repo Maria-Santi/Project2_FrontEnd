@@ -171,13 +171,16 @@ img {
 
 
    async function getMood(mood) {
-      // async function to populate div ordersTable based on the mood
-      // so getProductsByMood function
+    dropdownMood.disabled = true;
 
+    moodFace.src = `${mood}.gif`
 
-      moodFace.src = `${mood}.gif`
-      
-   }
+    if (mood != 'Normal') {
+      addMoodItem(mood);
+    } else {
+      dropdownMood.disabled = false;
+    }
+  }
 
    function logout(){
         localStorage.clear();
