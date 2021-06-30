@@ -9,7 +9,8 @@
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 0.5fr 1.5fr 1.6fr 0.4fr 1fr 1fr 1fr;
+  /* grid-template-rows: 0.5fr 1.5fr 1.6fr 0.4fr 1fr 1fr 1fr; */
+  grid-template-rows: auto auto auto auto auto auto auto;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas:
@@ -17,10 +18,14 @@
     ". ordersTable ordersTable ordersTable ordersTable ."
     ". ordersTable ordersTable ordersTable ordersTable ."
     ". . . . . ."
-    ". . . . . ."
-    ". . . . . ."
-    ". . . . . .";
+    ". ordersDetails ordersDetails ordersDetails ordersDetails ."
+    ". ordersDetails ordersDetails ordersDetails ordersDetails ."
+    ". fulfillButton . . . .";
 }
+
+.fullfillButton { grid-area: fullfillButton; }
+
+.ordersDetails { grid-area: ordersDetails; }
 
 .ordersTable {
   display: grid;
@@ -55,16 +60,13 @@
     <div class="container">
         <div class="ordersTable">
           <div class="orders">
-            <table id = "table" class = "table">
-                <caption id="tableCaption" style="color: black;">Orders Table</caption>
+            <table id = "ordersTable" class = "table">
+                <!-- <caption id="tableCaption" style="color: black;">Orders Table</caption> -->
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col">Order#</th>
                     <th scope="col">Customer</th> 
-                    <th scope="col">Product</th>
-                    <th scope="col">Quantity</th>
                     <th scope="col">Date</th>
-                    <th scope = "col">Fufill</th>
                   </tr>
                 </thead>
                 <tbody id="tableOrders">
@@ -72,6 +74,17 @@
                 </tbody>
               </table>
           </div>
+        </div>
+        <div class="ordersDetails">
+            <table id="ordersDetailsTable" class="table">
+                <thead class="thead-dark"><th>Product</th><th>Quantity</th></thead>
+                <tbody id="detailsBody">
+
+                </tbody>
+            </table>
+        </div>
+        <div class="fullfillButton">
+            <button id="fullfillButton" onclick="fulfillOrder()">Fulfill Order</button>
         </div>
       </div>
 
@@ -83,7 +96,9 @@
 </body>
 <script>
     const ordersTable = document.getElementById("tableOrders");
-    
+    const detailsTable = document.getElementById("detailsBody");
+    let selectedOrder = 0;
+
     async function getAllOrders(){
 
         // getAllOdersInfo
@@ -94,78 +109,62 @@
         for(order of orders)  {
 
             if(order.status == "Submitted") {
+                var utcSeconds = 1234567890;
+                let d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+                d.setUTCSeconds(order.orderDate);
 
-                let today = new Date();
-                let dd = String(today.getDate()).padStart(2, '0');
-                let mm = String(today.getMonth() + 1).padStart(2, '0'); 
-                let yyyy = today.getFullYear();
-                today = mm + '/' + dd + '/' + yyyy;
+                const custResponse = await fetch(`httP://localhost:7000/users/${order.userId}`);
+                const user = await custResponse.json();
 
-                const response = await fetch(`http://localhost:7000/orderProducts/orders/${order.orderId}`);
-                const p_orders = await response.json();
                 innerRows += `
                     <tr>
                         <td>${order.orderId}</td>
-                        <td>${order.userId}</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>${today}</td>
+                        <td>${user.firstName + " " + user.lastName}</td>
+                        <td>${d}</td>
                         <td>
-                            <button id="Fulfill" class="btn" type="button" onclick="fulfillOrder(${order.orderId}, ${order.userId})">Fulfill</button>
+                            <button id="selectOrder" class="btn" type="button" onclick="selectOrder(${order.orderId})">Select</button>
                         </td>
                         </tr>`
-                        ordersTable.innerHTML = innerRows;
-                        
-                for(op of p_orders) {
-
-                    innerRows += `
-                    <tr>
-                        <td>${order.orderId}</td>
-                        <td>${order.userId}</td>
-                        <td>${op.pId}</td>
-                        <td>${op.quantity}</td>
-                        <td>${today}</td>
-                        <td>
-                            <button id="Fulfill" class="btn" type="button" onclick="fulfillOrder(${order.orderId}, ${order.userId})">Fulfill</button>
-                        </td>
-                        </tr>`
-                        ordersTable.innerHTML = innerRows;
-                }
             }                      
         }
+        ordersTable.innerHTML = innerRows;
     }
 
-    async function fulfillOrder(id, user){
+    async function selectOrder(orderId){
+        selectedOrder = orderId;
+        const response = await fetch(`http://localhost:7000/orderProducts/orders/info/${orderId}`);
+        const items = await response.json();
 
-        let today = new Date();
-        let dd = String(today.getDate()).padStart(2, '0');
-        let mm = String(today.getMonth() + 1).padStart(2, '0'); 
-        let yyyy = today.getFullYear();
-
-        today = mm + '/' + dd + '/' + yyyy;
-        let epoch = Date.parse(today);
-
-        const update = {
-            orderDate: epoch,
-            userid: user,
-            status: "Fulfilled"
+        let innerRows = "";
+        for (let item of items) {
+            innerRows += `
+                <tr>
+                    <td>${item.name}</td>
+                    <td>${item.quantity}</td>
+                </td>`
         }
+        detailsTable.innerHTML = innerRows;
+    }
 
-        const config = {
-            method:"PUT",
-            headers:{'Content-Type':"application/json"},
-            body: JSON.stringify(update)
-        }
+    async function fulfillOrder(){
+    const response = await fetch(`http://localhost:7000/orders/${selectedOrder}`);
+      const order = await response.json();
 
-        const response = await fetch(`http://localhost:7000/orders/${id}`, config);
-        
-        if (response.status === 205) {
-            alert("The Order was fullfilled");
-        }
-        else {
-            alert("The Order could not be fullfilled");
-        }
+      let orderUpdate = {
+        orderId:order.orderId,
+        orderDate:order.orderDate,
+        status:"Fulfilled",
+        userId:order.userId
+      }
 
+      const config = {
+        method:"PUT",
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(orderUpdate)
+      }
+
+      const updateResponse = await fetch(`http://localhost:7000/orders/${selectedOrder}`,config);
+      await getAllOrders();
     }
 
 
