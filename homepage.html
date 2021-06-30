@@ -4,52 +4,65 @@
     <title>Git Your Java Home Page</title>
     <link rel="stylesheet" href="./coffeemachine.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Castoro&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <style>
+
 .container {
-  margin: 0;
   width: 100%;  
   display: grid; 
-  grid-template-columns: 1.3fr 0.7fr 1fr 1fr 1.1fr 0.9fr 0.8fr 1.2fr; 
-  grid-template-rows: 0.4fr 1.6fr 1fr 1fr 1fr 1.7fr 1.9fr 0.2fr; 
+  grid-template-columns: 1fr 1fr 1fr 1fr 1.1fr 0.9fr 1.1fr 0.9fr; 
+  grid-template-rows: 0.4fr 1.6fr 1fr 1fr 1fr 1.7fr 0.1fr 2.8fr; 
   gap: 0px 0px; 
   grid-template-areas: 
-    ". . . . . . . ."
     ". menu menu menu menu menu menu ."
     ". menu menu menu menu menu menu ."
     ". menu menu menu menu menu menu ."
     ". menu menu menu menu menu menu ."
     ". menu menu menu menu menu menu ."
-    ". menu menu menu menu menu menu ."
-    ". . . . . . . ."; 
+    ". menu menu menu menu menu menu ."; 
 }
+
+.title {
+  width: 100%;
+  padding: 15px;
+  text-align: center;
+  color: black;
+  background: linear-gradient(65deg, #725327, #be8a41);
+}
+
 .menu {
   color: black;
   text-align: center;
-  border: 7px dotted black;
-  background-color:rgb(65, 63, 63);
+  margin-top: 25px;
+  border: 20px double black;
+  background: linear-gradient(45deg, #57390f, #da8e26);
   display: grid; 
-  grid-template-columns: 0.5fr 2.3fr 0.1fr 1.1fr 1.3fr 0.1fr 2.3fr 0.4fr; 
-  grid-template-rows: 0.5fr 1.7fr 0.9fr 0.1fr 1.8fr 0.7fr 0.1fr 2.9fr 0.3fr; 
+  grid-template-columns: 0.2fr 4fr 0.6fr 0.3fr 0.9fr 3.9fr 0.3fr 0.7fr 3.7fr 0.3fr; 
+  grid-template-rows: 0.5fr 1.7fr 1.2fr 0.1fr 1.5fr 1.3fr 0.2fr 3.1fr 0.3fr; 
   gap: 0px 0px; 
   grid-template-areas: 
-    ". . menuTitle menuTitle menuTitle menuTitle . ."
-    ". coldMenu . coffeeGif coffeeGif . hotMenu ."
-    ". coldMenu . coffeeGif coffeeGif . hotMenu ."
-    ". . . . . . . ."
-    ". coffee1 . foodMenu foodMenu . coffee2 ."
-    ". coffee1 . foodMenu foodMenu . coffee2 ."
-    ". . . . . . . ."
-    ". beansMenu . coffee3 coffee3 . merchandiseMenu ."
-    ". . . . . . . ."; 
+    ". . . menuTitle menuTitle menuTitle menuTitle . . ."
+    ". coldMenu coldMenu . coffeeGif coffeeGif . hotMenu hotMenu ."
+    ". coldMenu coldMenu . coffeeGif coffeeGif . hotMenu hotMenu ."
+    ". . . . . . . . . ."
+    ". coffee1 . . foodMenu foodMenu . . coffee2 ."
+    ". coffee1 . . foodMenu foodMenu . . coffee2 ."
+    ". . . . . . . . . ."
+    ". beansMenu beansMenu . coffee3 coffee3 . merchandiseMenu merchandiseMenu ."; 
   grid-area: menu; 
+
+  
 }
 .menuTitle { 
   grid-area: menuTitle; 
   padding-bottom: 5px;
-  border: 5px double black;
-  background-color: lightslategray;
+  width: auto;
+  height: 100px;
+
   }
 .coldMenu {
   display: grid; 
@@ -60,8 +73,9 @@
     ". . ."
     ". . ."; 
   grid-area: coldMenu; 
-  border: 5px double black;
-  background-color: lightslategray;
+  border: 5px dashed black;
+  background-color:rgba(224, 187, 91, 0.466);
+
 }
 
 .hotMenu {
@@ -73,10 +87,8 @@
     ". . ."
     ". . ."; 
   grid-area: hotMenu; 
-  border: 5px double black;
-  background-color: lightslategray; 
-  text-align: center;
-  
+  border: 5px dashed black;
+  background-color: rgba(224, 187, 91, 0.466);
 }
 
 .foodMenu {
@@ -88,8 +100,9 @@
     ". . ."
     ". . ."; 
   grid-area: foodMenu; 
-  border: 5px double black;
-  background-color: lightslategray;
+  border: 5px dashed black;
+  background-color: rgba(224, 187, 91, 0.466);
+
 }
 
 .beansMenu {
@@ -99,11 +112,12 @@
   gap: 0px 0px; 
   grid-template-areas: 
     ". . ."
-    ". . ."
     ". . ."; 
   grid-area: beansMenu;
-  border: 5px double black;
-  background-color: lightslategray; 
+  border: 5px dashed black;
+  background-color: rgba(224, 187, 91, 0.466);
+  height: 400px;
+
 }
 
 .merchandiseMenu {
@@ -113,11 +127,12 @@
   gap: 0px 0px; 
   grid-template-areas: 
     ". . ."
-    ". . ."
     ". . ."; 
   grid-area: merchandiseMenu; 
-  border: 5px double black;
-  background-color: lightslategray;
+  border: 5px dashed black;
+  background-color: rgba(224, 187, 91, 0.466);
+  height: 400px;
+ 
 }
 
 .coffee1 { grid-area: coffee1; }
@@ -125,7 +140,7 @@
 .coffee3 { grid-area: coffee3; }
 .coffeeGif { 
   grid-area: coffeeGif;
-  padding-top: 50px; }
+  padding-top: 125px; }
 
 .coffee-machine {
     width: 300px;
@@ -134,21 +149,28 @@
     position: relative;
 }
 
-
 body {
-    background-color:lightsteelblue;
+    background-color:rgb(241, 242, 243);
+    font-family: 'Castoro', serif;
 }
 
 table {
-  margin-left: 70px;
+  width: 100%;
+}
+
+tbody {
+  display: block;
 }
 
 th {
   text-align: center;
 }
+td {
+  text-align: left;
+}
 
 img {
-  margin: 0 auto;
+  margin-top: 100px;
   height: 300px;
   width: 320px;
 }
@@ -164,7 +186,7 @@ img {
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
           <div class="navbar-header">
-            <img style="width: 50px; height: 50px;" src="icon.png">
+            <img style="margin-top: 0px; width: 50px; height: 50px;" src="icon.png">
             <a class="navbar-brand" href="#">Git Your Java!</a>
           </div>
           <ul class="nav navbar-nav navbar-right">
@@ -174,22 +196,23 @@ img {
         </div>
       </nav>
 
-        <div class="container">
+      <div class = "title">
+        <h3>Git Your Java is a local Coffee Shop. Our goal is to understand the customers and be there for them, with a cup of coffee, no matter the mood.</h3>
+        <h5>Please log in to place an order</h5>
+      </div>
 
+        <div class="container">
             <div class="menu">
               <div class="menuTitle">
                 <h3><b>Git Your Java Menu</b></h3>
               </div>
 
-              <div id= "coldDrinksMenu" class="coldMenu">
+              <div style="overflow-x:auto;" id= "coldDrinksMenu" class="coldMenu">
                 
-                  <table class = "table">
-                    <thead class="thead-dark">
+                  <table class = "table table-sm">
+                    <thead>
                       <th>Cold Drinks</th>
-                      <tr>
-                        <th scope="col">Name</th> 
-                        <th scope="col">Price</th>
-                      </tr>
+                      
                     </thead>
                     <tbody id = "coldMenu">
   
@@ -198,15 +221,12 @@ img {
 
               </div>
 
-              <div id = "hotDrinksMenu" class="hotMenu">
+              <div style="overflow-x:auto;" id = "hotDrinksMenu" class="hotMenu">
 
-                  <table class = "table">
-                    <thead class="thead-dark">
+                  <table class = "table table-sm">
+                    <thead>
                       <th>Hot Drinks</th>
-                      <tr>
-                        <th scope="col">Name</th> 
-                        <th scope="col">Price</th>
-                      </tr>
+                      
                     </thead>
                     <tbody id = "hotMenu">
                       
@@ -215,15 +235,12 @@ img {
              
               </div>
 
-              <div id="foodItemsMenu" class="foodMenu">
+              <div style="overflow-x:auto;" id="foodItemsMenu" class="foodMenu">
               
-                  <table class = "table">
-                    <thead class="thead-dark">
+                  <table class = "table table-sm">
+                    <thead>
                       <th>Food</th>
-                      <tr>
-                        <th scope="col">Name</th> 
-                        <th scope="col">Price</th>
-                      </tr>
+                     
                     </thead>
                     <tbody id = "foodMenu">
                       
@@ -232,14 +249,11 @@ img {
                 
               </div>
 
-              <div class = "beansMenu">
-                  <table class = "table">
-                    <thead class="thead-dark">
+              <div style="overflow-x:auto;" class = "beansMenu">
+                  <table class = "table table-sm">
+                    <thead>
                       <th>Coffee Beans</th>
-                      <tr>
-                        <th scope="col">Name</th> 
-                        <th scope="col">Price</th>
-                      </tr>
+                    
                     </thead>
                     <tbody id = "beansMenu">
                       
@@ -248,15 +262,12 @@ img {
                 
               </div>
 
-              <div class="merchandiseMenu">
+              <div style="overflow-x:auto;" class="merchandiseMenu">
                 
-                  <table class = "table">
-                    <thead class="thead-dark">
+                  <table class = "table table-sm">
+                    <thead>
                       <th>Merchandise</th>
-                      <tr>
-                        <th scope="col">Name</th> 
-                        <th scope="col">Price</th>
-                      </tr>
+                    
                     </thead>
                     <tbody id = "merchMenu">
                       
@@ -302,7 +313,6 @@ img {
             </div>
           </div>
         
-    
 </body>
 <script>
     //login/create account - add an id and add an event listener 
@@ -323,8 +333,9 @@ img {
       for(let product of products) {
         innerRows += `
           <tr>
-          <td style="text-align: center; vertical-align: middle;">${product.name}</td>
-          <td style="text-align: center; vertical-align: middle;">$${product.price}</td>
+          <td>${product.name}</td>
+          <td style= "white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">${product.description}</td>
+          <td>$${product.price}</td>
           </tr>`
 
         switch(category) {
@@ -367,8 +378,8 @@ img {
     addLoadEvent(getAllProducts("Cold"));
     addLoadEvent(getAllProducts("Hot"));
     addLoadEvent(getAllProducts("Food"));
-    //addLoadEvent(getAllProducts("Beans"));
-    //addLoadEvent(getAllProducts("Merch"));
+    addLoadEvent(getAllProducts("Beans"));
+    addLoadEvent(getAllProducts("Merch"));
 
 </script>
 </html>
