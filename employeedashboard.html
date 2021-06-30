@@ -2,47 +2,62 @@
 <html lang="en">
 <head>
     <title>Git Your Java Employee</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Castoro&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <!-- will add styling later -->
 <style>
+
 .container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  /* grid-template-rows: 0.5fr 1.5fr 1.6fr 0.4fr 1fr 1fr 1fr; */
-  grid-template-rows: auto auto auto auto auto auto auto;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    ". . . . . ."
-    ". ordersTable ordersTable ordersTable ordersTable ."
-    ". ordersTable ordersTable ordersTable ordersTable ."
-    ". . . . . ."
-    ". ordersDetails ordersDetails ordersDetails ordersDetails ."
-    ". ordersDetails ordersDetails ordersDetails ordersDetails ."
-    ". fulfillButton . . . .";
+  background: linear-gradient(45deg, #a47228, #da8e26);
+  margin: 0 auto;
+  display: grid; 
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
+  grid-template-rows: 0.4fr 1.5fr 0.1fr 1.4fr 1.6fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    ". . . . ."
+    ". ordersTable ordersTable ordersTable ."
+    ". . . . ."
+    ". ordersDetails ordersDetails ordersDetails ."
+    ". . . . .";
 }
 
-.fullfillButton { grid-area: fullfillButton; }
 
 .ordersDetails { grid-area: ordersDetails; }
 
 .ordersTable {
-  display: grid;
-  grid-template-columns: 0.7fr 0.9fr 1.4fr 1.3fr 0.7fr;
-  grid-template-rows: 0.3fr 0.3fr 2.3fr 1.3fr 0.8fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    ". . . . ."
-    ". . . . ."
-    ". orders orders orders ."
-    ". orders orders orders ."
-    ". . . . .";
-  grid-area: ordersTable;
+  display: grid; 
+  grid-template-columns: 0.4fr 2.3fr 0.3fr; 
+  grid-template-rows: 0.4fr 2.2fr 0.4fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    ". . ."
+    ". orders ."
+    ". . ."; 
+  grid-area: ordersTable; 
 }
 
-.orders { grid-area: orders; }
+.ordersDetails {
+  background-color: rgba(224, 187, 91, 0.466);
+}
+
+.fullfillButton {
+  float: right;
+  margin: 15px;
+}
+
+.orders { 
+  grid-area: orders;
+  background-color: rgba(224, 187, 91, 0.466); 
+}
+
+body {
+    background-color: rgb(226, 230, 236);
+    font-family: 'Castoro', serif;
+}
 
 
 </style>    
@@ -61,7 +76,6 @@
         <div class="ordersTable">
           <div class="orders">
             <table id = "ordersTable" class = "table">
-                <!-- <caption id="tableCaption" style="color: black;">Orders Table</caption> -->
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col">Order#</th>
@@ -82,14 +96,12 @@
 
                 </tbody>
             </table>
-        </div>
-        <div class="fullfillButton">
-            <button id="fullfillButton" onclick="fulfillOrder()">Fulfill Order</button>
+            <div class="fullfillButton">
+              <button class="btn btn-info" id="fullfillButton" onclick="fulfillOrder()">Fulfill Order</button>
+          </div>
         </div>
       </div>
 
-    <!-- make a table for the orders -->
-    <!-- add a button to the table to update the order status -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>  
@@ -101,7 +113,6 @@
 
     async function getAllOrders(){
 
-        // getAllOdersInfo
         const response = await fetch(`http://localhost:7000/orders`);
         const orders = await response.json();
 
@@ -122,7 +133,7 @@
                         <td>${user.firstName + " " + user.lastName}</td>
                         <td>${d}</td>
                         <td>
-                            <button id="selectOrder" class="btn" type="button" onclick="selectOrder(${order.orderId})">Select</button>
+                            <button id="selectOrder" class="btn btn-info" type="button" onclick="selectOrder(${order.orderId})">Select</button>
                         </td>
                         </tr>`
             }                      
@@ -147,7 +158,7 @@
     }
 
     async function fulfillOrder(){
-    const response = await fetch(`http://localhost:7000/orders/${selectedOrder}`);
+      const response = await fetch(`http://localhost:7000/orders/${selectedOrder}`);
       const order = await response.json();
 
       let orderUpdate = {
