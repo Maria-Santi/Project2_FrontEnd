@@ -3,20 +3,24 @@
 <head>
     <title>Git Your Java Customer</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Castoro&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <style>
 .container {
+  background: linear-gradient(45deg, #57390f, #da8e26);
+  width: 100%;
   display: grid; 
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; 
-  /* grid-template-rows: 0.2fr 1.8fr 0.1fr 1.9fr 0.2fr 1.8fr 1fr 1fr; */
-  grid-template-rows: auto auto auto auto auto auto auto auto;
+  grid-template-rows: 0.2fr 1.8fr 0.1fr 2.3fr 0.2fr 1.4fr 1.6fr 0.4fr; 
   gap: 0px 0px; 
   grid-template-areas: 
     ". . . . . . ."
     ". mood mood mood mood mood ."
     ". . . . . . ."
     ". . ordersTable ordersTable ordersTable . ."
-    ". . . . submitButton . ."
+    ". . . . . . ."
     ". menu menu menu menu menu ."
     ". menu menu menu menu menu ."
     ". . . . . . ."; 
@@ -44,14 +48,18 @@
 .question { 
     grid-area: question;
     text-align: center;
-    
  }
 
-.ordersTable { grid-area: ordersTable; }
+.ordersTable { 
+  background-color: rgba(224, 187, 91, 0.466);
+  text-align: center; 
+  margin: 0 auto;
+  grid-area: ordersTable; 
+  }
 
-.submitButton { grid-area: submitButton; }
 
 .menu {
+  background-color: rgba(224, 187, 91, 0.466);
   display: grid; 
   grid-template-columns: 0.5fr 0.7fr 2.4fr 0.4fr; 
   grid-template-rows: 0.2fr 0.6fr 2.2fr 1.7fr 0.3fr; 
@@ -67,21 +75,26 @@
 
 .sort { grid-area: sort; }
 
-.menuTable { grid-area: menuTable; }
-
-
-
-body, html
-{
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  font-family: 'Open Sans', sans-serif;
+.menuTable { 
+  grid-area: menuTable; 
 }
 
+.menu table {
+  height: 400px;
+}
+
+
+table {
+  display: block;
+  width: 100%;
+}
+
+
+
+
 body {
-    background-color: lightsteelblue;
+    background-color: rgb(226, 230, 236);
+    font-family: 'Castoro', serif;
 }
 
 img {
@@ -96,7 +109,6 @@ img {
     <nav class="navbar navbar-light bg-light">
         <span class="navbar-brand mb-0 h1">Git Your Java</span>
 
-        <!-- localStorage to get the user name? -->
         <h4 id='welcomeHeader' style="text-align: center;">Welcome, User</h4>
 
         <!-- add localStorage to get the Barista's name? -->
@@ -104,6 +116,7 @@ img {
       </nav>
 
       <div class="container">
+
         <div class="mood">
           <div class="face">
             <img id="moodFace" src="">
@@ -122,19 +135,25 @@ img {
             </div>
           </div>
         </div>
+
         <div class="ordersTable">
-          <table>
-            <thead><th>Item</th><th>Quantity</th><th>Price</th></thead>
+          <table class="table">
+            <thead class="thead-dark">
+              <th scope="col">Item</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Price</th>
+            </thead>
             <tbody id="ordersTableBody"></tbody>
           </table>
+          <div class="submitButton">
+            <button id="submitBtn" class="btn btn-secondary" type="button" onclick="submitOrder()">Order</button>
+          </div>
         </div>
-        <div class="submitButton">
-          <button onclick="submitOrder()">Order</button>
-        </div>
+
         <div class = "menu">
-          <!-- sort is a dropdown button, getProductsByCategory -->
+     
           <div id = "sortBtn" class = "sort">
-            <select id="categorySelect" onchange="refreshMenu()">
+            <select class = "custom-select" id="categorySelect" onchange="refreshMenu()">
               <option value="All">All</option>
               <option value="Cold Drinks">Cold Drinks</option>
               <option value="Hot Drinks">Hot Drinks</option>
@@ -143,13 +162,18 @@ img {
               <option value="Merch">Merch</option>
             </select>
           </div>
-          <div clas = "menuTable">
-            <table>
-              <thead><th>Name</th><th>Description</th><th>Price</th></thead>
+          <div style="overflow-y:auto;" class = "menuTable">
+            <table class="table table-hover">
+              <thead>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Price</th>
+              </thead>
               <tbody id="menuTableBody"></tbody>
             </table>
           </div>
         </div>
+
       </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -166,11 +190,9 @@ img {
    let thisOrderId = 0;
    let moodId = 0;
 
-   // function to populate menu inside the customer page (div menuTable)
-   // 
-
 
    async function getMood(mood) {
+
     dropdownMood.disabled = true;
 
     moodFace.src = `${mood}.gif`
@@ -181,11 +203,6 @@ img {
       dropdownMood.disabled = false;
     }
   }
-
-   function logout(){
-        localStorage.clear();
-        window.location.href = 'homepage.html'
-    }
 
     async function createOrder() {
       let order = {
@@ -224,7 +241,7 @@ img {
           <td>${item.name}</td>
           <td>${item.description}</td>
           <td>$${item.price}</td>
-          <td><button onclick='addItem(${item.productId})'>Add Item</button></td></tr>`;
+          <td><button class="btn btn-info" onclick='addItem(${item.productId})'>Add Item</button></td></tr>`;
       }
       menuTableBody.innerHTML = innerRows;
     }
@@ -236,13 +253,11 @@ img {
       let totalPrice = 0;
       let totalQuantity = 0;
       for (let item of items){
-        //const infoResponse = await fetch(`http://localhost:7000/products/${item.pId}`);
-        //const product = await infoResponse.json();
         innerRows += `<tr>
           <td>${item.name}</td>
           <td><input type='number' onchange='updateQuantity(${item.opId}, this.value)' min='1' value=${item.quantity}></td>
           <td>$${item.price * item.quantity}</td>
-          <td><button onclick='deleteItem(${item.opId})'>DELETE</button></td></tr>`;
+          <td><button class="btn btn-dark" onclick='deleteItem(${item.opId})'>DELETE</button></td></tr>`;
         totalPrice = totalPrice + (item.price * item.quantity);
         totalQuantity = totalQuantity + item.quantity;
       }
@@ -348,6 +363,11 @@ img {
             func(); 
             } 
         }
+    }
+
+    function logout(){
+        localStorage.clear();
+        window.location.href = 'homepage.html'
     }
 
 
