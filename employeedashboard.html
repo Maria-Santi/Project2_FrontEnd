@@ -6,6 +6,39 @@
 
     <!-- will add styling later -->
 <style>
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 0.5fr 1.5fr 1.6fr 0.4fr 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    ". . . . . ."
+    ". ordersTable ordersTable ordersTable ordersTable ."
+    ". ordersTable ordersTable ordersTable ordersTable ."
+    ". . . . . ."
+    ". . . . . ."
+    ". . . . . ."
+    ". . . . . .";
+}
+
+.ordersTable {
+  display: grid;
+  grid-template-columns: 0.7fr 0.9fr 1.4fr 1.3fr 0.7fr;
+  grid-template-rows: 0.3fr 0.3fr 2.3fr 1.3fr 0.8fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    ". . . . ."
+    ". . . . ."
+    ". orders orders orders ."
+    ". orders orders orders ."
+    ". . . . .";
+  grid-area: ordersTable;
+}
+
+.orders { grid-area: orders; }
+
 
 </style>    
 </head>
@@ -18,20 +51,130 @@
 
         <button style="float: right; margin: 15px;" type="button" class="btn btn-dark" id="logoutBtn" onclick="logout()">Logout</button>
     </nav>
-    <div class = "container">
 
-    </div>
+    <div class="container">
+        <div class="ordersTable">
+          <div class="orders">
+            <table id = "table" class = "table">
+                <caption id="tableCaption" style="color: black;">Orders Table</caption>
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Order#</th>
+                    <th scope="col">Customer</th> 
+                    <th scope="col">Product</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Date</th>
+                    <th scope = "col">Fufill</th>
+                  </tr>
+                </thead>
+                <tbody id="tableOrders">
+
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
 
     <!-- make a table for the orders -->
     <!-- add a button to the table to update the order status -->
-    
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>  
 </body>
 <script>
-    // async function getAllOrders called when the page loads
+    const ordersTable = document.getElementById("tableOrders");
+    
+    async function getAllOrders(){
+
+        // getAllOdersInfo
+        const response = await fetch(`http://localhost:7000/orders`);
+        const orders = await response.json();
+
+        let innerRows = "";
+        for(order of orders)  {
+
+            if(order.status == "Submitted") {
+
+                let today = new Date();
+                let dd = String(today.getDate()).padStart(2, '0');
+                let mm = String(today.getMonth() + 1).padStart(2, '0'); 
+                let yyyy = today.getFullYear();
+                today = mm + '/' + dd + '/' + yyyy;
+
+                const response = await fetch(`http://localhost:7000/orderProducts/orders/${order.orderId}`);
+                const p_orders = await response.json();
+                innerRows += `
+                    <tr>
+                        <td>${order.orderId}</td>
+                        <td>${order.userId}</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>${today}</td>
+                        <td>
+                            <button id="Fulfill" class="btn" type="button" onclick="fulfillOrder(${order.orderId}, ${order.userId})">Fulfill</button>
+                        </td>
+                        </tr>`
+                        ordersTable.innerHTML = innerRows;
+                        
+                for(op of p_orders) {
+
+                    innerRows += `
+                    <tr>
+                        <td>${order.orderId}</td>
+                        <td>${order.userId}</td>
+                        <td>${op.pId}</td>
+                        <td>${op.quantity}</td>
+                        <td>${today}</td>
+                        <td>
+                            <button id="Fulfill" class="btn" type="button" onclick="fulfillOrder(${order.orderId}, ${order.userId})">Fulfill</button>
+                        </td>
+                        </tr>`
+                        ordersTable.innerHTML = innerRows;
+                }
+            }                      
+        }
+    }
+
+    async function fulfillOrder(id, user){
+
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0'); 
+        let yyyy = today.getFullYear();
+
+        today = mm + '/' + dd + '/' + yyyy;
+        let epoch = Date.parse(today);
+
+        const update = {
+            orderDate: epoch,
+            userid: user,
+            status: "Fulfilled"
+        }
+
+        const config = {
+            method:"PUT",
+            headers:{'Content-Type':"application/json"},
+            body: JSON.stringify(update)
+        }
+
+        const response = await fetch(`http://localhost:7000/orders/${id}`, config);
+        
+        if (response.status === 205) {
+            alert("The Order was fullfilled");
+        }
+        else {
+            alert("The Order could not be fullfilled");
+        }
+
+    }
+
 
     function logout(){
         localStorage.clear();
         window.location.href = 'homepage.html'
     }
+
+
+    getAllOrders();
 </script>
 </html>
