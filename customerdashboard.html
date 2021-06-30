@@ -8,14 +8,15 @@
 .container {
   display: grid; 
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; 
-  grid-template-rows: 0.2fr 1.8fr 0.1fr 1.9fr 0.2fr 1.8fr 1fr 1fr; 
+  /* grid-template-rows: 0.2fr 1.8fr 0.1fr 1.9fr 0.2fr 1.8fr 1fr 1fr; */
+  grid-template-rows: auto auto auto auto auto auto auto auto;
   gap: 0px 0px; 
   grid-template-areas: 
     ". . . . . . ."
     ". mood mood mood mood mood ."
     ". . . . . . ."
     ". . ordersTable ordersTable ordersTable . ."
-    ". . . . . . ."
+    ". . . . submitButton . ."
     ". menu menu menu menu menu ."
     ". menu menu menu menu menu ."
     ". . . . . . ."; 
@@ -47,6 +48,8 @@
  }
 
 .ordersTable { grid-area: ordersTable; }
+
+.submitButton { grid-area: submitButton; }
 
 .menu {
   display: grid; 
@@ -94,7 +97,7 @@ img {
         <span class="navbar-brand mb-0 h1">Git Your Java</span>
 
         <!-- localStorage to get the user name? -->
-        <h4 style="text-align: center;">Welcome, User</h4>
+        <h4 id='welcomeHeader' style="text-align: center;">Welcome, User</h4>
 
         <!-- add localStorage to get the Barista's name? -->
         <button style="float: right; margin: 15px;" type="button" class="btn btn-dark" id="logoutBtn" onclick="logout()">Logout</button>
@@ -120,13 +123,32 @@ img {
           </div>
         </div>
         <div class="ordersTable">
-
+          <table>
+            <thead><th>Item</th><th>Quantity</th><th>Price</th></thead>
+            <tbody id="ordersTableBody"></tbody>
+          </table>
+        </div>
+        <div class="submitButton">
+          <button onclick="submitOrder()">Order</button>
         </div>
         <div class = "menu">
-
           <!-- sort is a dropdown button, getProductsByCategory -->
-          <div id = "sortBtn" class = "sort"></div>
-          <div clas = "menuTable"></div>
+          <div id = "sortBtn" class = "sort">
+            <select id="categorySelect" onchange="refreshMenu()">
+              <option value="All">All</option>
+              <option value="Cold Drinks">Cold Drinks</option>
+              <option value="Hot Drinks">Hot Drinks</option>
+              <option value="Food">Food</option>
+              <option value="Coffee Beans">Coffee Beans</option>
+              <option value="Merch">Merch</option>
+            </select>
+          </div>
+          <div clas = "menuTable">
+            <table>
+              <thead><th>Name</th><th>Description</th><th>Price</th></thead>
+              <tbody id="menuTableBody"></tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -136,6 +158,13 @@ img {
 </body>
 <script>
    const moodFace = document.getElementById("moodFace");
+   const dropdownMood = document.getElementById("dropdownMood");
+   const ordersTableBody = document.getElementById("ordersTableBody");
+   const menuTableBody = document.getElementById("menuTableBody");
+   const categorySelect = document.getElementById("categorySelect");
+   const welcomeHeader = document.getElementById("welcomeHeader");
+   let thisOrderId = 0;
+   let moodId = 0;
 
    // function to populate menu inside the customer page (div menuTable)
    // 
@@ -155,7 +184,176 @@ img {
         window.location.href = 'homepage.html'
     }
 
-   getMood('Normal');
+    async function createOrder() {
+      let order = {
+        orderId:0,
+        orderDate:Math.round(Date.now()/1000),
+        status:"Generated",
+        userId:localStorage.getItem("customerId")
+      }
+
+      const config = {
+        method:"POST",
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(order)
+      }
+
+      const response = await fetch('http://localhost:7000/orders', config);
+      
+      const createdOrder = await response.json();
+      thisOrderId = createdOrder.orderId;
+    }
+
+    async function refreshMenu() {
+      let response = null;
+      let items = null;
+      if (categorySelect.value == "All") {
+        response = await fetch(`http://localhost:7000/products`);
+        items = await response.json();
+      } else {
+        response = await fetch(`http://localhost:7000/products?category=${categorySelect.value}`);
+        items = await response.json();
+      }
+      
+      let innerRows = "";
+      for (let item of items){
+        innerRows += `<tr>
+          <td>${item.name}</td>
+          <td>${item.description}</td>
+          <td>$${item.price}</td>
+          <td><button onclick='addItem(${item.productId})'>Add Item</button></td></tr>`;
+      }
+      menuTableBody.innerHTML = innerRows;
+    }
+
+    async function refreshOrder(){
+      const response = await fetch(`http://localhost:7000/orderProducts/orders/info/${thisOrderId}`);
+      const items = await response.json();
+      let innerRows = "";
+      let totalPrice = 0;
+      let totalQuantity = 0;
+      for (let item of items){
+        //const infoResponse = await fetch(`http://localhost:7000/products/${item.pId}`);
+        //const product = await infoResponse.json();
+        innerRows += `<tr>
+          <td>${item.name}</td>
+          <td><input type='number' onchange='updateQuantity(${item.opId}, this.value)' min='1' value=${item.quantity}></td>
+          <td>$${item.price * item.quantity}</td>
+          <td><button onclick='deleteItem(${item.opId})'>DELETE</button></td></tr>`;
+        totalPrice = totalPrice + (item.price * item.quantity);
+        totalQuantity = totalQuantity + item.quantity;
+      }
+      innerRows += `<tr><td>Total</td><td>${totalQuantity}</td><td>$${totalPrice}</td></tr>`;
+      ordersTableBody.innerHTML = innerRows;
+    }
+
+    async function addItem(pId){
+      const response = await fetch(`http://localhost:7000/products/${pId}`);
+      const item= await response.json();
+
+      let orderProduct = {
+        opId:0,
+        oId:thisOrderId,
+        pId:item.productId,
+        quantity:1
+      }
+
+      const config = {
+        method:"POST",
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(orderProduct)
+      }
+
+      const addResponse = await fetch(`http://localhost:7000/orderProducts`, config);
+      const newMood = await addResponse.json();
+      moodId = newMood.opId;
+      await refreshOrder();
+    }
+
+    async function submitOrder(){
+      const response = await fetch(`http://localhost:7000/orders/${thisOrderId}`);
+      const order = await response.json();
+
+      let orderUpdate = {
+        orderId:order.orderId,
+        orderDate:order.orderDate,
+        status:"Submitted",
+        userId:order.userId
+      }
+
+      const config = {
+        method:"PUT",
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(orderUpdate)
+      }
+
+      const updateResponse = await fetch(`http://localhost:7000/orders/${thisOrderId}`,config);
+      logout();
+    }
+
+    async function deleteItem(id) {
+      const delConfig = {method:"DELETE"};
+      const delResponse = await fetch(`http://localhost:7000/orderProducts/${id}`, delConfig);
+      await refreshOrder();
+    }
+
+    async function updateQuantity(id, quantity) {
+      const config = {method:"PUT"};
+      const response = await fetch(`http://localhost:7000/orderProducts/${id}/quantity/${quantity}`, config);
+      await refreshOrder();
+    }
+
+    async function addMoodItem(mood){
+      if (moodId != 0) {
+        const delConfig = {method:"DELETE"};
+        const delResponse = await fetch(`http://localhost:7000/orderProducts/${moodId}`, delConfig);
+      }
+      const response = await fetch(`http://localhost:7000/products?mood=${mood}`);
+      const items = await response.json();
+      const chosen = items[Math.floor(Math.random()*items.length)];
+
+      let orderProduct = {
+        opId:0,
+        oId:thisOrderId,
+        pId:chosen.productId,
+        quantity:1
+      }
+
+      const config = {
+        method:"POST",
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(orderProduct)
+      }
+
+      const addResponse = await fetch(`http://localhost:7000/orderProducts`, config);
+      const newMood = await addResponse.json();
+      moodId = newMood.opId;
+      await refreshOrder();
+      dropdownMood.disabled = false;
+    }
+
+    function addLoadEvent(func){
+        var oldonload = window.onload;
+        if (typeof window.onload != 'function'){
+            window.onload = func;
+        }
+        else { 
+        window.onload = function() { 
+            if (oldonload) { 
+                oldonload(); 
+            } 
+            func(); 
+            } 
+        }
+    }
+
+
+  localStorage.setItem("customerId", 1);
+  addLoadEvent(getMood('Normal'));
+  addLoadEvent(createOrder());
+  addLoadEvent(refreshOrder());
+  addLoadEvent(refreshMenu());
+  welcomeHeader.innerHTML = `Welcome, ${localStorage.getItem("customerName")}`;
 
 </script>
 </html>
