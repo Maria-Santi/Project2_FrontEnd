@@ -21,7 +21,6 @@ body {
     -ms-transform: translateX(-50%) translateY(-50%);
     -webkit-transform: translate(-50%,-50%);
     transform: translate(-50%,-50%);
-
     background: linear-gradient(65deg, #725327, #be8a41);
   
 }
@@ -54,17 +53,17 @@ body {
             <img src="icon.png">
         </div>
         <h1 class="login-h1">Login</h1>
-        <form>
-            <div class="form-group">
+
+        <div class="form-group">
                 <label for = "usernameInput">Username</label>
                 <input type="text" placeholder="Username" required class="form-control" id="usernameInput">
-            </div>
-            <div class="form-group">
-                <label for = "passwordInput">Password</label>
-                <input type="password" placeholder="Password" required class="form-control" id="passwordInput">
-            </div>
-            <button type="submit" onclick="perform()" class="btn btn-primary" id="login">Log In</button>
-        </form>
+        </div>
+        
+        <div class="form-group">
+            <label for = "passwordInput">Password</label>
+            <input type="password" placeholder="Password" required class="form-control" id="passwordInput">
+        </div>
+        <button onclick="perform()" class="btn btn-primary" id="login">Log In</button>
         
     </div>
 
@@ -88,12 +87,12 @@ body {
                     if(user.isEmployee){
                         localStorage.setItem("employeeId", user.userId);
                         localStorage.setItem("employeeName", (user.firstName + " " + user.lastName));
-                        window.location.replace("employeedashboard.html");
+                        window.location.href = "employeedashboard.html";
                     }
                     else{
                         localStorage.setItem("customerId", user.userId);
                         localStorage.setItem("customerName", (user.firstName + " " + user.lastName));
-                        window.location.replace("customerdashboard.html");
+                        window.location.href = "customerdashboard.html";
                     }
 
                     found = true;
