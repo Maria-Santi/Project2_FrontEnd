@@ -194,8 +194,8 @@ img {
    async function getMood(mood) {
 
     dropdownMood.disabled = true;
-
-    moodFace.src = `Pictures/${mood}.gif`
+    
+    moodFace.src = `https://project2frontend.s3.us-east-2.amazonaws.com/Pictures/${mood}.gif`
 
     if (mood != 'Normal') {
       addMoodItem(mood);
