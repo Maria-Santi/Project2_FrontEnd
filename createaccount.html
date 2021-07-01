@@ -84,7 +84,7 @@ body {
         const password = document.getElementById("passwordInput").value;
 
         async function createAccount(){
-            const response = await fetch("http://localhost:7000/users");
+            const response = await fetch("http://13.57.203.71:7000/users");
             const users = await response.json();
             console.log(users);
             
@@ -114,7 +114,7 @@ body {
                     body:JSON.stringify(request)
                 }
 
-                const response = await fetch(`http://localhost:7000/users`, config);
+                const response = await fetch(`http://13.57.203.71:7000/users`, config);
                 const user = await response.json();
 
                 if(response.status === 201){
