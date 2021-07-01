@@ -324,7 +324,7 @@ img {
     const merchMenu = document.getElementById("merchMenu"); 
 
     async function getAllProducts(category){
-      const repsonse = await fetch(`http://localhost:7000/products?category=${category}`);
+      const repsonse = await fetch(`http://13.57.203.71:7000/products?category=${category}`);
       const products = await repsonse.json();
 
       let innerRows = "";
