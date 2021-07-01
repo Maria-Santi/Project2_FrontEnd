@@ -218,7 +218,7 @@ img {
         body:JSON.stringify(order)
       }
 
-      const response = await fetch('http://localhost:7000/orders', config);
+      const response = await fetch('http://13.57.203.71:7000/orders', config);
       
       const createdOrder = await response.json();
       thisOrderId = createdOrder.orderId;
@@ -228,10 +228,10 @@ img {
       let response = null;
       let items = null;
       if (categorySelect.value == "All") {
-        response = await fetch(`http://localhost:7000/products`);
+        response = await fetch(`http://13.57.203.71:7000/products`);
         items = await response.json();
       } else {
-        response = await fetch(`http://localhost:7000/products?category=${categorySelect.value}`);
+        response = await fetch(`http://13.57.203.71:7000/products?category=${categorySelect.value}`);
         items = await response.json();
       }
       
@@ -247,7 +247,7 @@ img {
     }
 
     async function refreshOrder(){
-      const response = await fetch(`http://localhost:7000/orderProducts/orders/info/${thisOrderId}`);
+      const response = await fetch(`http://13.57.203.71:7000/orderProducts/orders/info/${thisOrderId}`);
       const items = await response.json();
       let innerRows = "";
       let totalPrice = 0;
@@ -266,7 +266,7 @@ img {
     }
 
     async function addItem(pId){
-      const response = await fetch(`http://localhost:7000/products/${pId}`);
+      const response = await fetch(`http://13.57.203.71:7000/products/${pId}`);
       const item= await response.json();
 
       let orderProduct = {
@@ -282,14 +282,14 @@ img {
         body:JSON.stringify(orderProduct)
       }
 
-      const addResponse = await fetch(`http://localhost:7000/orderProducts`, config);
+      const addResponse = await fetch(`http:/13.57.203.71:7000/orderProducts`, config);
       const newMood = await addResponse.json();
       moodId = newMood.opId;
       await refreshOrder();
     }
 
     async function submitOrder(){
-      const response = await fetch(`http://localhost:7000/orders/${thisOrderId}`);
+      const response = await fetch(`http://13.57.203.71:7000/orders/${thisOrderId}`);
       const order = await response.json();
 
       let orderUpdate = {
@@ -305,28 +305,28 @@ img {
         body:JSON.stringify(orderUpdate)
       }
 
-      const updateResponse = await fetch(`http://localhost:7000/orders/${thisOrderId}`,config);
+      const updateResponse = await fetch(`http://13.57.203.71:7000/orders/${thisOrderId}`,config);
       logout();
     }
 
     async function deleteItem(id) {
       const delConfig = {method:"DELETE"};
-      const delResponse = await fetch(`http://localhost:7000/orderProducts/${id}`, delConfig);
+      const delResponse = await fetch(`http://13.57.203.71:7000/orderProducts/${id}`, delConfig);
       await refreshOrder();
     }
 
     async function updateQuantity(id, quantity) {
       const config = {method:"PUT"};
-      const response = await fetch(`http://localhost:7000/orderProducts/${id}/quantity/${quantity}`, config);
+      const response = await fetch(`http://13.57.203.71:7000/orderProducts/${id}/quantity/${quantity}`, config);
       await refreshOrder();
     }
 
     async function addMoodItem(mood){
       if (moodId != 0) {
         const delConfig = {method:"DELETE"};
-        const delResponse = await fetch(`http://localhost:7000/orderProducts/${moodId}`, delConfig);
+        const delResponse = await fetch(`http://13.57.203.71:7000/orderProducts/${moodId}`, delConfig);
       }
-      const response = await fetch(`http://localhost:7000/products?mood=${mood}`);
+      const response = await fetch(`http://13.57.203.71:7000/products?mood=${mood}`);
       const items = await response.json();
       const chosen = items[Math.floor(Math.random()*items.length)];
 
@@ -343,7 +343,7 @@ img {
         body:JSON.stringify(orderProduct)
       }
 
-      const addResponse = await fetch(`http://localhost:7000/orderProducts`, config);
+      const addResponse = await fetch(`http://13.57.203.71:7000/orderProducts`, config);
       const newMood = await addResponse.json();
       moodId = newMood.opId;
       await refreshOrder();
@@ -371,7 +371,6 @@ img {
     }
 
 
-  localStorage.setItem("customerId", 1);
   addLoadEvent(getMood('Normal'));
   addLoadEvent(createOrder());
   addLoadEvent(refreshOrder());
