@@ -284,7 +284,6 @@ img {
 
       const addResponse = await fetch(`http:/13.57.203.71:7000/orderProducts`, config);
       const newMood = await addResponse.json();
-      moodId = newMood.opId;
       await refreshOrder();
     }
 
